@@ -23,3 +23,13 @@ services:
       - POSTGRES_DB=db_name
       - POSTGRES_USER=db_user
       - POSTGRES_PASSWORD=db_pass
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin_password
+    depends_on:
+      - database
