@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Страница подтверждения</title>
+{% endblock %}
+
+{% block content %}
+<html>
+<body>
+    <h1>Загрузка фаила выполнена</h1>
+    <p>Ваш фаил успешно загружен</p>
+    <div class="links">
+        <a href="{% url 'upload' %}">Загрузить другие файлы</a>
+        <span class="separator">|</span>
+        <a href="{% url 'uploaded' %}">Посмотреть загруженные файлы</a>
+    </div>
+</body>
+</html>
+{% endblock %}
+
+

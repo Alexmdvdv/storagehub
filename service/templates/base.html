@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    {% block title %}
+    {% endblock %}
+
+</head>
+
+<body>
+<header>
+    <h1 class="header-link"><a href="{% url 'home' %}">StorageHub</a></h1>
+</header>
+
+<nav>
+    <ul>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'upload' %}">Загрузить файл</a></li>
+            <li><a href="{% url 'uploaded' %}">Ваши файлы</a></li>
+            <li><a href="{% url 'logout' %}">Выйти</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Войти</a></li>
+            <li><a href="{% url 'register' %}">Зарегистрироваться</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer>
+
+</footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Ваши файлы</title>
+{% endblock %}
+
+{% block content %}
+<html>
+<header>
+    <h1>Ваши загруженные файлы</h1>
+</header>
+<body>
+<div class="file-forms">
+    {% for file in user_files %}
+    <div class="file-form">
+        <h2 class="file-title">{{ file.file_name }}</h2>
+        <form class="file-details">
+            <p class="file-link">
+                <a href="{% url 'update' file.id %}">Перезаписать файл</a>
+                <span class="separator">|</span>
+                <a href="{% url 'delete' file.id %}">Удалить файл</a>
+            </p>
+        </form>
+    </div>
+    {% empty %}
+    <p class="no-files">Нет загруженных файлов</p>
+    {% endfor %}
+</div>
+<a class="upload-link" href="{% url 'upload' %}">Загрузить файл</a>
+</body>
+</html>
+{% endblock %}

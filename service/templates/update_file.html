@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Изменение файла</title>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>Обновление файла</h1>
+</header>
+<main>
+    <form method="post" action="{% url 'update' file.id %}" enctype="multipart/form-data" class="registration-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Обновить файл</button>
+    </form>
+</main>
+</html>
+{% endblock %}

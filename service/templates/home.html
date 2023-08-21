@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<title>Главная страница</title>
+{% endblock %}
+
+
+{% block content %}
+<body>
+{% if not user.is_authenticated %}
+<div class="notice">
+    <h1>Для доступа к некоторым функциям сайта необходимо войти или зарегистрироваться. </h1>
+    <a href="{% url 'login' %}">Войти</a> или <a href="{% url 'register' %}">Зарегистрироваться</a>.
+</div>
+{% else %}
+<div class="notice">
+    <h1>Добро пожаловать на сайт.</h1>
+
+</div>
+{% endif %}
+
+</body>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Загрузить файл</title>
+{% endblock %}
+
+{% block content %}
+<html>
+<header>
+    <h1>Загрузка файла</h1>
+</header>
+<main>
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload' %}" class="registration-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Загрузить</button>
+    </form>
+</main>
+</html>
+{% endblock %}
