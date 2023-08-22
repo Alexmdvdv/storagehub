@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from operation.forms import FileUploadForm
 from operation.models import FileModel
+from operation.tasks import log_handler
 
 
 def upload_file(request):
@@ -11,6 +12,8 @@ def upload_file(request):
             file.user = request.user
             file.file_name = request.FILES['file_path'].name
             file.save()
+            file_id = file.id
+            log_handler.delay(file_id)
 
             return redirect("succes")
 
@@ -21,7 +24,7 @@ def upload_file(request):
 
 
 def uploaded_files(request):
-    user_files = FileModel.objects.filter(user=request.user)
+    user_files = FileModel.objects.filter(user=request.user).order_by('-id')
     context = {'user_files': user_files}
     return render(request, 'uploaded_files.html', context)
 
@@ -48,8 +51,10 @@ def update_file(request, file_id):
             file.file_path = request.FILES['file_path']
             file.file_name = request.FILES['file_path']
             file.is_new = False
+            file.is_changed = True
 
             file.save()
+            log_handler.delay(file.id)
 
         return redirect("succes")
     else:

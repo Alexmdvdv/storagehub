@@ -33,3 +33,42 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=admin_password
     depends_on:
       - database
+
+  redis:
+    image: redis:7.2.0-alpine
+    hostname: redis
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./service:/service
+    links:
+      - redis
+    depends_on:
+      - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=db_name
+      - DB_USER=db_user
+      - DB_PASS=db_pass
+
+  flower:
+    build:
+      context: .
+    hostname: flower
+    entrypoint: celery
+    command: -A celery_app.app flower
+    volumes:
+      - ./service:/service
+
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
