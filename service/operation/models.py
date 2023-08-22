@@ -1,4 +1,3 @@
-import os
 import uuid
 from django.contrib.auth.models import User
 from django.db import models
@@ -18,4 +17,3 @@ class FileModel(models.Model):
     is_new = models.BooleanField(default=True)
     is_changed = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
-

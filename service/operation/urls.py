@@ -1,6 +1,6 @@
 from django.urls import path
 
-from operation.views import upload_file, uploaded_files, update_file, delete_file, succes_view
+from operation.views import upload_file, uploaded_files, update_file, delete_file, succes_view, report_info
 
 urlpatterns = [
     path('upload/', upload_file, name="upload"),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('update/<int:file_id>/', update_file, name="update"),
     path('delete/<int:file_id>/', delete_file, name="delete"),
     path('succes/', succes_view, name="succes"),
+    path('report/<int:file_id>/', report_info, name="report")
 ]

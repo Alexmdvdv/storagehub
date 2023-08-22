@@ -14,7 +14,6 @@ def log_handler(file_id):
     file_name = file_object.file_name
     file_to_analyze = file_object.file_path.path
 
-
     captured_output = StringIO()
     reporter = TextReporter(captured_output)
     Run([file_to_analyze], reporter=reporter, do_exit=False)

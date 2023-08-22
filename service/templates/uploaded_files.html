@@ -16,9 +16,11 @@
         <h2 class="file-title">{{ file.file_name }}</h2>
         <form class="file-details">
             <p class="file-link">
-                <a href="{% url 'update' file.id %}">Перезаписать файл</a>
+                <a href="{% url 'update' file.id %}">Изменить</a>
                 <span class="separator">|</span>
-                <a href="{% url 'delete' file.id %}">Удалить файл</a>
+                <a href="{% url 'delete' file.id %}">Удалить</a>
+                <span class="separator">|</span>
+                 <a href="{% url 'report' file.id %}">Отчет</a>
             </p>
         </form>
     </div>

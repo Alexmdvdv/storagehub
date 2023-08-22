@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from operation.forms import FileUploadForm
 from operation.models import FileModel
@@ -65,3 +67,20 @@ def update_file(request, file_id):
 
 def succes_view(request):
     return render(request, "succes.html")
+
+
+def report_info(request, file_id):
+    file = FileModel.objects.get(pk=file_id)
+    file_path = file.file_path.path
+    file_name = file.file_name
+
+    with open("logs.json", "r") as json_file:
+        json_data = json.load(json_file)
+
+        result = None
+        for item in json_data:
+            if file_path in item:
+                result = item.get(file_path, [])
+                break
+
+    return render(request, "report.html", {"result": result, "name": file_name})
