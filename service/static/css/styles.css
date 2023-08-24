@@ -72,7 +72,7 @@ footer {
     flex-shrink: 0;
 }
 
-/* ... register ... */
+/* Стили для оформления регистрации */
 
 .registration-form {
     max-width: 400px;
@@ -116,7 +116,7 @@ footer {
     background-color: #003d00;
 }
 
-/* style uploaded files */
+/* Стили для оформления загруженных файлов */
 .page-title {
     text-align: center;
     margin-top: 20px;
@@ -195,4 +195,6 @@ footer {
 
 .log-message {
     color: #555;
+    overflow-wrap: break-word;
 }
+

@@ -1,26 +1,19 @@
-import os
-
+import smtplib
 from celery import shared_task
-import json
-from io import StringIO
-from pylint.lint import Run
-from pylint.reporters.text import TextReporter
+
 from operation.models import FileModel
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+from operation.utils import pylint_code, has_data_json
+from service import settings
 
 
 @shared_task
-def log_handler(file_id):
+def read_logs(file_id):
     file_object = FileModel.objects.get(pk=file_id)
-    file_name = file_object.file_name
-    file_to_analyze = file_object.file_path.path
-
-    captured_output = StringIO()
-    reporter = TextReporter(captured_output)
-    Run([file_to_analyze], reporter=reporter, do_exit=False)
-
-    logs = captured_output.getvalue()
-    lines = logs.splitlines()
-
+    lines = pylint_code(file_object.file_path.path)
     results = []
 
     for line in lines:
@@ -29,24 +22,35 @@ def log_handler(file_id):
             location, code, message = parts
             file, line, column = location.split(":")
             results.append({
-                "file": file_name,
+                "file": file_object.file_name,
                 "line_number": line,
                 "col_number": column,
                 "code": code,
                 "message": message
             })
 
-    data = {file_to_analyze: results}
-
-    with open('logs.json', encoding='utf8') as f:
-        if not os.path.getsize('logs.json') > 0:
-            json_logs([data])
-        else:
-            datas = json.load(f)
-            datas.append(data)
-            json_logs(datas)
+    has_data_json({file_object.file_path.path: results})
+    send_email.delay(results)
 
 
-def json_logs(data):
-    with open("logs.json", "w", encoding='utf8') as json_file:
-        json.dump(data, json_file, indent=4, ensure_ascii=False)
+@shared_task
+def send_email(results):
+    try:
+        subject = 'Результат проверки файла'
+        from_email = settings.EMAIL_HOST_USER
+        to_email = ['recipient@example.com']
+
+        html_content = render_to_string('email.html', {'results': results})
+        text_content = strip_tags(html_content)
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+        msg.attach_alternative(html_content, "text/html")
+
+        connection = msg.get_connection()
+        connection.open()
+        msg.send()
+        connection.close()
+
+    except smtplib.SMTPException as e:
+
+        print(f"Ошибка при отправке письма: {e}")

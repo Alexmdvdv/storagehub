@@ -9,13 +9,14 @@
 {% block content %}
 <body>
 {% if not user.is_authenticated %}
-<div class="notice">
-    <h1>Для доступа к некоторым функциям сайта необходимо войти или зарегистрироваться. </h1>
-    <a href="{% url 'login' %}">Войти</a> или <a href="{% url 'register' %}">Зарегистрироваться</a>.
+<div class="file-forms">
+    <h1>Для доступа к некоторым функциям сайта необходимо <a href="{% url 'login' %}">Войти</a>
+        или <a href="{% url 'register' %}">Зарегистрироваться</a></h1>
+
 </div>
 {% else %}
-<div class="notice">
-    <h1>Добро пожаловать на сайт.</h1>
+<div class="file-forms">
+    <h1>Добро пожаловать на сайт!</h1>
 
 </div>
 {% endif %}

@@ -5,17 +5,19 @@
 {% endblock %}
 
 {% block content %}
-<html>
 <body>
-    <h1>Загрузка фаила выполнена</h1>
-    <p>Ваш фаил успешно загружен</p>
+<div class="file-forms">
+    <h2>Ваш фаил успешно загружен</h2>
+    <br>
     <div class="links">
-        <a href="{% url 'upload' %}">Загрузить другие файлы</a>
-        <span class="separator">|</span>
-        <a href="{% url 'uploaded' %}">Посмотреть загруженные файлы</a>
+        <p class="file-link">
+            <a href="{% url 'upload' %}">Загрузить другие файлы</a>
+            <span class="separator">|</span>
+            <a href="{% url 'uploaded' %}">Посмотреть загруженные файлы</a>
+        </p>
     </div>
+</div>
 </body>
-</html>
 {% endblock %}
 
 

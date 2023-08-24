@@ -12,9 +12,7 @@
     <form method="post" action="{% url 'update' file.id %}" enctype="multipart/form-data" class="registration-form">
         {% csrf_token %}
         {{ form.as_p }}
-
         <button type="submit">Обновить файл</button>
     </form>
 </main>
-</html>
 {% endblock %}
