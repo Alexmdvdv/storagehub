@@ -45,6 +45,15 @@ StorageHub - сервис для автоматической проверки �
 🖥️ Демо:
 </h2>
 
+- <a href="https://github.com/Alexmdvdv/StorageHub/assets/107799695/74aa885d-e717-45e1-973d-8c5cc97c1bd8">Нажать чтобы демо видео!</a>
+- <video src="https://github.com/Alexmdvdv/StorageHub/assets/107799695/74aa885d-e717-45e1-973d-8c5cc97c1bd8" />
+
+
+
+
+
+
+
 
 
 
