@@ -29,9 +29,6 @@ def uploaded_files(request):
 
 
 def delete_file(request, file_id):
-    """
-    Посмотреть почему не удаляется фаил
-    """
     try:
         file = FileModel.objects.get(id=file_id, user=request.user)
         file_path = file.file.path
@@ -59,7 +56,7 @@ def update_file(request, file_id):
     if request.method == "POST":
         form = FileUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            file.file_path.delete(save=False)
+            file.file.delete(save=False)
 
             file.file = request.FILES['file']
             file.name = request.FILES['file'].name
@@ -75,10 +72,6 @@ def update_file(request, file_id):
     return render(request, "update_file.html", {"form": form, "file": file})
 
 
-def succes_view(request):
-    return render(request, "succes.html")
-
-
 def report_info(request, file_id):
     file = FileModel.objects.get(pk=file_id)
 
@@ -86,15 +79,18 @@ def report_info(request, file_id):
         json_data = json.load(json_file)
 
         result = None
+        email = None
         for item in json_data:
             if file.file.path in item:
                 result = item.get(file.file.path, [])
                 email = item.get("email")
                 break
-            else:
-                email = None
 
         file_name = file.name
         context = {"result": result, "name": file_name, "email": email}
 
     return render(request, "report.html", context)
+
+
+def succes_view(request):
+    return render(request, "succes.html")

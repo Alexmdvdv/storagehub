@@ -16,4 +16,4 @@ class FileModel(models.Model):
                             validators=[FileExtensionValidator(allowed_extensions=["py"])])
     is_new = models.BooleanField(default=True)
     is_changed = models.BooleanField(default=False)
-    email_sent = models.BooleanField(default=False)
+    verified = models.BooleanField(default=False)
