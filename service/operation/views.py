@@ -62,6 +62,7 @@ def update_file(request, file_id):
             file.name = request.FILES['file'].name
             file.is_new = False
             file.is_changed = True
+            file.verified = False
 
             file.save()
 
