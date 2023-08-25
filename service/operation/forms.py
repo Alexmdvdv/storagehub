@@ -6,7 +6,8 @@ from operation.models import FileModel
 class FileUploadForm(forms.ModelForm):
     class Meta:
         model = FileModel
-        fields = ('file_path',)
+        fields = ('file',)
         labels = {
-            'file_path': 'Файл'
+            'file': 'Файл'
         }
+

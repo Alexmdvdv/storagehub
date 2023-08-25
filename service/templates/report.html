@@ -8,6 +8,13 @@
 <header>
     <h1>{{ name }}</h1>
 </header>
+{% if email %}
+<div class="file-forms">
+    <p class="no-files">{{ email }}</p>
+</div>
+{% else %}
+<div></div>
+{% endif %}
 <ul class="log-list">
     {% for entry in result %}
     <li class="log-entry">
@@ -15,10 +22,13 @@
         <span class="log-code">{{ entry.code }}:</span>
         <span class="log-info">{{ entry.message }}</span>
     </li>
+    {% empty %}
+    <div class="file-forms">
+        <p class="no-files">Фаил отправлен на проверку</p>
+    </div>
     {% endfor %}
 </ul>
 {% endblock %}
-
 
 
 

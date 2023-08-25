@@ -1,12 +1,14 @@
 import os
 from pathlib import Path
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-#hs7-hoj^_(5)dx%f5$ahcmk^ftzi&v&vhsf7)o85!lwrru8u&'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
@@ -15,6 +17,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'operation.apps.OperationConfig',
     'oauth.apps.OauthConfig',
+    'django_celery_beat',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -111,6 +114,8 @@ LOGGING = {
 }
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

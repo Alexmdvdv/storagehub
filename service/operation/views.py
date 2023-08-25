@@ -1,9 +1,8 @@
 import json
-
 from django.shortcuts import render, redirect
 from operation.forms import FileUploadForm
 from operation.models import FileModel
-from operation.tasks import read_logs
+from operation.tasks import check_file
 
 
 def upload_file(request):
@@ -12,10 +11,8 @@ def upload_file(request):
         if form.is_valid():
             file = form.save(commit=False)
             file.user = request.user
-            file.file_name = request.FILES['file_path'].name
+            file.name = request.FILES['file'].name
             file.save()
-
-            read_logs.delay(file.id)
 
             return redirect("succes")
 
@@ -32,9 +29,12 @@ def uploaded_files(request):
 
 
 def delete_file(request, file_id):
+    """
+    Посмотреть почему не удаляется фаил
+    """
     try:
         file = FileModel.objects.get(id=file_id, user=request.user)
-        file_path = file.file_path.path
+        file_path = file.file.path
 
         with open("logs.json", "r") as json_file:
             json_data = json.load(json_file)
@@ -44,7 +44,7 @@ def delete_file(request, file_id):
             json.dump(json_data, json_file)
 
         if file_path:
-            file.file_path.delete()
+            file.file.delete()
         file.delete()
 
     except FileModel.DoesNotExist:
@@ -61,13 +61,12 @@ def update_file(request, file_id):
         if form.is_valid():
             file.file_path.delete(save=False)
 
-            file.file_path = request.FILES['file_path']
-            file.file_name = request.FILES['file_path'].name
+            file.file = request.FILES['file']
+            file.name = request.FILES['file'].name
             file.is_new = False
             file.is_changed = True
 
             file.save()
-            read_logs.delay(file.id)
 
         return redirect("succes")
     else:
@@ -88,8 +87,14 @@ def report_info(request, file_id):
 
         result = None
         for item in json_data:
-            if file.file_path.path in item:
-                result = item.get(file.file_path.path, [])
+            if file.file.path in item:
+                result = item.get(file.file.path, [])
+                email = item.get("email")
                 break
+            else:
+                email = None
 
-    return render(request, "report.html", {"result": result, "name": file.file_name})
+        file_name = file.name
+        context = {"result": result, "name": file_name, "email": email}
+
+    return render(request, "report.html", context)

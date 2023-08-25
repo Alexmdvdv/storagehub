@@ -4,6 +4,8 @@ from io import StringIO
 from pylint.lint import Run
 from pylint.reporters.text import TextReporter
 
+from service import settings
+
 
 def pylint_code(file):
     output = StringIO()
@@ -16,8 +18,8 @@ def pylint_code(file):
 
 
 def has_data_json(data):
-    with open('logs.json', encoding='utf8') as f:
-        if not os.path.getsize('logs.json') > 0:
+    with open("logs.json", encoding='utf8') as f:
+        if not os.path.getsize("logs.json") > 0:
             save_data_json([data])
 
         else:
@@ -29,5 +31,3 @@ def has_data_json(data):
 def save_data_json(data):
     with open("logs.json", "w", encoding='utf8') as json_file:
         json.dump(data, json_file, indent=4, ensure_ascii=False)
-
-

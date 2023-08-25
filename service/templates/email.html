@@ -5,12 +5,14 @@
 </head>
 <body>
 <p>Отчет о проведенной проверке</p>
+
 <ul class="log-list">
     {% for entry in results %}
     <li class="log-entry">
         <span class="log-info">{{ entry.file }}:{{ entry.line_number }}:{{ entry.col_number }}:</span>
         <span class="log-code">{{ entry.code }}:</span>
         <span class="log-message">{{ entry.message }}</span>
+
     </li>
     {% endfor %}
 </ul>

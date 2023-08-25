@@ -11,9 +11,9 @@ def user_directory_path(instance, filename):
 
 class FileModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    file_name = models.CharField(max_length=50)
-    file_path = models.FileField(upload_to=user_directory_path,
-                                 validators=[FileExtensionValidator(allowed_extensions=["py"])])
+    name = models.CharField(max_length=50)
+    file = models.FileField(upload_to=user_directory_path,
+                            validators=[FileExtensionValidator(allowed_extensions=["py"])])
     is_new = models.BooleanField(default=True)
     is_changed = models.BooleanField(default=False)
     email_sent = models.BooleanField(default=False)

@@ -12,7 +12,7 @@
 <div class="file-forms">
     {% for file in user_files %}
     <div class="file-form">
-        <h2 class="file-title">{{ file.file_name }}</h2>
+        <h2 class="file-title">{{ file.name }}</h2>
         <form class="file-details">
             <p class="file-link">
                 <a href="{% url 'update' file.id %}">Изменить</a>
